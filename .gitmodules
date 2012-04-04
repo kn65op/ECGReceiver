@@ -1,0 +1,3 @@
+[submodule "bluez-cpp"]
+	path = bluez-cpp
+	url = git@github.com:kn65op/bluez-cpp.git
