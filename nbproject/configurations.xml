@@ -4,6 +4,9 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceSelector.cpp</itemPath>
+      <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/include/DeviceSelector.h</itemPath>
+      <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/include/ECGReceiver.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -13,7 +16,6 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGReceiver.cpp</itemPath>
-      <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/include/ECGReceiver.h</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -37,11 +39,16 @@
       </toolsSet>
       <compileType>
         <ccTool>
+          <incDir>
+            <pElem>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp</pElem>
+          </incDir>
           <commandLine>-std=c++0x</commandLine>
         </ccTool>
         <linkerTool>
           <linkerLibItems>
             <linkerOptionItem>`pkg-config --libs gtkmm-3.0`</linkerOptionItem>
+            <linkerLibFileItem>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp/dist/Debug/GNU-Linux-x86/libbluez-cpp.so</linkerLibFileItem>
+            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

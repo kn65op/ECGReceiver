@@ -7,10 +7,20 @@
 
 #include "../include/ECGReceiver.h"
 
+#include "../include/DeviceSelector.h"
+
 ECGReceiver::ECGReceiver()
 {
   set_title("ECGReceiver");
   set_size_request(200, 200);
+  
+  //przycik wyboru device
+  select_device.set_label("Wybierz urządzenie");
+  select_device.signal_clicked().connect(sigc::mem_fun(*this, &ECGReceiver::on_select_device_clicked));
+  select_device.show();
+  
+  //umieszczenie elementów
+  add(select_device);
 }
 
 ECGReceiver::ECGReceiver(const ECGReceiver& orig)
@@ -19,5 +29,12 @@ ECGReceiver::ECGReceiver(const ECGReceiver& orig)
 
 ECGReceiver::~ECGReceiver()
 {
+}
+
+void ECGReceiver::on_select_device_clicked()
+{
+  DeviceSelector ds;
+  ds.run();
+  //TODO pobranie wyniku
 }
 

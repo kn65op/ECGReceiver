@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/_ext/1309969090/DeviceSelector.o \
 	${OBJECTDIR}/_ext/1309969090/ECGReceiver.o
 
 
@@ -52,11 +53,13 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=`pkg-config --libs gtkmm-3.0`  
+LDLIBSOPTIONS=`pkg-config --libs gtkmm-3.0` /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp/dist/Debug/GNU-Linux-x86/libbluez-cpp.so -lpthread   
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
 	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ecgreceiver
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ecgreceiver: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp/dist/Debug/GNU-Linux-x86/libbluez-cpp.so
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ecgreceiver: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
@@ -65,12 +68,17 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ecgreceiver: ${OBJECTFILES}
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/_ext/1309969090/DeviceSelector.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceSelector.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
+	${RM} $@.d
+	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/DeviceSelector.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceSelector.cpp
 
 ${OBJECTDIR}/_ext/1309969090/ECGReceiver.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGReceiver.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
 	${RM} $@.d
-	$(COMPILE.cc) -g `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/ECGReceiver.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGReceiver.cpp
+	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/ECGReceiver.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGReceiver.cpp
 
 # Subprojects
 .build-subprojects:

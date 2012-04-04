@@ -16,7 +16,15 @@ public:
   ECGReceiver();
   virtual ~ECGReceiver();
 private:
+  //blokowanie kopiowania
   ECGReceiver(const ECGReceiver& orig);
+  
+  //obsługa sygnałów
+  void on_select_device_clicked();
+  
+  //elementy składowe
+  Gtk::Button select_device;
+  
 };
 
 #endif	/* ECGRECEIVER_H */

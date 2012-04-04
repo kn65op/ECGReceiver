@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/_ext/1309969090/DeviceSelector.o \
 	${OBJECTDIR}/_ext/1309969090/ECGReceiver.o
 
 
@@ -66,6 +67,11 @@ ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/_ext/1309969090/DeviceSelector.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceSelector.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/DeviceSelector.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceSelector.cpp
 
 ${OBJECTDIR}/_ext/1309969090/ECGReceiver.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGReceiver.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
