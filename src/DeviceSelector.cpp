@@ -8,6 +8,10 @@
 #include "../include/DeviceSelector.h"
 
 #include <thread>
+#include <functional>
+
+//TODO usunąć
+#include <iostream>
 
 DeviceSelector::DeviceSelector()
 {
@@ -33,14 +37,35 @@ DeviceSelector::DeviceSelector()
   //wyświetlenie
   tmp->show_all_children(true);
   
+  //szukanie urządzeń
+  //std::thread t(std::mem_fn<void, DeviceSelector>(&DeviceSelector::searchDevices));
+  //std::thread t(&DeviceSelector::searchDevices, *this);
+  
+  //wyświetlanie urządzeń
+  this->signal_devices_ready().connect(sigc::mem_fun(*this, &DeviceSelector::on_devices_ready));
 }
 
-DeviceSelector::DeviceSelector(const DeviceSelector& orig)
-{
-  
-}
 
 DeviceSelector::~DeviceSelector()
 {
 }
 
+void DeviceSelector::searchDevices()
+{
+  BluezBluetooth bt;
+  bt.scanDevices();
+  devices_mutex.lock();
+  devices = bt.getDevices();
+  devices_mutex.unlock();
+  devices_ready.emit();
+}
+
+void DeviceSelector::on_devices_ready()
+{
+  std::cout << "Ready";
+}
+
+sigc::signal<void> DeviceSelector::signal_devices_ready()
+{
+  return devices_ready;
+}

@@ -23,10 +23,6 @@ ECGReceiver::ECGReceiver()
   add(select_device);
 }
 
-ECGReceiver::ECGReceiver(const ECGReceiver& orig)
-{
-}
-
 ECGReceiver::~ECGReceiver()
 {
 }

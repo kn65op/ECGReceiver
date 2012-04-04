@@ -14,10 +14,9 @@ class ECGReceiver : public Gtk::Window
 {
 public:
   ECGReceiver();
+  ECGReceiver(const ECGReceiver& orig) = delete; //blokowanie kopiowania
   virtual ~ECGReceiver();
 private:
-  //blokowanie kopiowania
-  ECGReceiver(const ECGReceiver& orig);
   
   //obsługa sygnałów
   void on_select_device_clicked();
