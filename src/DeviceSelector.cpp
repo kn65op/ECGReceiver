@@ -52,11 +52,12 @@ DeviceSelector::DeviceSelector()
   //wyświetlanie urządzeń
   this->signal_devices_ready().connect(sigc::mem_fun(*this, &DeviceSelector::on_devices_ready));
 
-  exited = false;
+  exiting = exited = false;
 }
 
 DeviceSelector::~DeviceSelector() // na razie będzie czekanie na zakończenie szukania //TODO zmienić zakończenie threada
 {
+  exiting = true;
   wd = new WaitingDialog("Czekaj na zakończenie szukania urządzeń.", false);
   s_close_waiting_dialog.connect(sigc::mem_fun(*wd, &WaitingDialog::on_close_waiting_dialog));
   std::thread t(&DeviceSelector::wait_for_end, this);
@@ -79,10 +80,10 @@ void DeviceSelector::searchDevices()
   std::list<Device> devs;
   devices_mutex.lock();
   std::list<Device*>::iterator it = devices.begin();
-  Gtk::ListStore::iterator modit = ref_tree_model->children();
-  for (auto d : devices) //czyszczenie nowej i starej listy urządzeń
+  Gtk::ListStore::iterator modit = ref_tree_model->children().begin();
+  while (it != devices.end()) //czyszczenie nowej i starej listy urządzeń
   {
-    if (!bt.deleteByMAC(d->getMAC())) // jeśli nie usunięto (tzn. nie ma już urządzenia) to usuwamy z aktualnej listy.
+    if (!bt.deleteByMAC((*it)->getMAC())) // jeśli nie usunięto (tzn. nie ma już urządzenia) to usuwamy z aktualnej listy.
     {
       it = devices.erase(it);
       modit = ref_tree_model->erase(modit);
@@ -133,6 +134,10 @@ void DeviceSelector::wait_for_end()
 
 void DeviceSelector::restart()
 {
+  if (exiting)
+  {
+    return;
+  }
   if (btthread)
   {
     btthread->join();

@@ -66,6 +66,8 @@ private:
   
   //funkcja restartująca wątek szukania.
   void restart();
+  //czy kończymy
+  bool exiting;
 };
 
 #endif	/* DEVICESELECTOR_H */
