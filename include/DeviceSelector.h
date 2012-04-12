@@ -15,6 +15,7 @@
 #include <sigc++-2.0/sigc++/sigc++.h>
 
 #include <Device.h>
+#include "DeviceTreeNode.h"
 
 #include "NeedWaitingDialog.h"
 #include "WaitingDialog.h"
@@ -40,7 +41,7 @@ private:
   Gtk::HBox hbox;
 
   //bluetooth
-  std::list<Device> devices;
+  std::list<DeviceTreeNode*> devices;
   //BluezBluetooth bluetooth;
   //funkcja szukająca
   void searchDevices();

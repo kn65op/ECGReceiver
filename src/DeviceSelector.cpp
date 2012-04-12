@@ -6,6 +6,7 @@
  */
 
 #include "../include/DeviceSelector.h"
+#include <equalMAC.h>
 #include "BluezBluetooth.h"
 
 #include <functional>
@@ -59,7 +60,7 @@ DeviceSelector::~DeviceSelector() // na razie będzie czekanie na zakończenie s
   std::cout << "DELETE\n";
   for (auto d : devices)
   {
-//    delete d;
+    delete d;
   }
 }
 
@@ -67,8 +68,26 @@ void DeviceSelector::searchDevices()
 {
   BluezBluetooth bt;
   bt.scanDevices();
+  std::list<Device> devs;
   devices_mutex.lock();
-  devices = bt.getDevices();
+  std::list<DeviceTreeNode*>::iterator it = devices.begin();
+  for (auto d : devices) //czyszczenie nowej i starej listy urządzeń
+  {
+    if (!bt.deleteByMAC(d->getMAC())) // jeśli nie usunięto (tzn. nie ma już urządzenia) to usuwamy z aktualnej listy.
+    {
+      it = devices.erase(it);
+    }
+    else
+    {
+      ++it;
+    }
+
+  }
+  devs = bt.getDevices();
+  for (auto d: devs) //dodawanie nowych elementów do listy (tych, które zostały na liście)
+  {
+    devices.push_back(new DeviceTreeNode(d));
+  }
   devices_mutex.unlock();
   devices_ready.emit();
   std::cout << "EMMITED\n";

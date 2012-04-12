@@ -14,8 +14,9 @@
 class DeviceTreeNode :public Device, public Gtk::TreeModelColumnRecord
 {
 public:
-  DeviceTreeNode();
+  DeviceTreeNode() = delete;
   DeviceTreeNode(const DeviceTreeNode& orig);
+  DeviceTreeNode(const Device& orig);
   virtual ~DeviceTreeNode();
 private:
 

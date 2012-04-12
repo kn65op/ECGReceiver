@@ -7,11 +7,11 @@
 
 #include "../include/DeviceTreeNode.h"
 
-DeviceTreeNode::DeviceTreeNode()
+DeviceTreeNode::DeviceTreeNode(const DeviceTreeNode& orig) : Device(orig)
 {
 }
 
-DeviceTreeNode::DeviceTreeNode(const DeviceTreeNode& orig)
+DeviceTreeNode::DeviceTreeNode(const Device& orig) : Device(orig)
 {
 }
 
