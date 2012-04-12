@@ -11,15 +11,16 @@
 #include <Device.h>
 #include <gtkmm-3.0/gtkmm/treemodelcolumn.h>
 
-class DeviceTreeNode :public Device, public Gtk::TreeModelColumnRecord
+class DeviceTreeNode :public Gtk::TreeModelColumnRecord//, public Device 
 {
 public:
-  DeviceTreeNode() = delete;
+  DeviceTreeNode();
   DeviceTreeNode(const DeviceTreeNode& orig);
   DeviceTreeNode(const Device& orig);
   virtual ~DeviceTreeNode();
-private:
-
+public:
+  Gtk::TreeModelColumn<std::string> col_MAC;
+  Gtk::TreeModelColumn<std::string> col_name;
 };
 
 #endif	/* DEVICETREENODE_H */

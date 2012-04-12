@@ -7,15 +7,21 @@
 
 #include "../include/DeviceTreeNode.h"
 
-DeviceTreeNode::DeviceTreeNode(const DeviceTreeNode& orig) : Device(orig)
+DeviceTreeNode::DeviceTreeNode(const DeviceTreeNode& orig)// : Device(orig)
 {
 }
 
-DeviceTreeNode::DeviceTreeNode(const Device& orig) : Device(orig)
+DeviceTreeNode::DeviceTreeNode(const Device& orig) //: Device(orig)
 {
 }
 
 DeviceTreeNode::~DeviceTreeNode()
 {
+}
+
+DeviceTreeNode::DeviceTreeNode()
+{
+  add(col_name);
+  add(col_MAC);
 }
 

@@ -39,9 +39,12 @@ private:
   //Gtk::Button refresh;
   Gtk::VBox vbox;
   Gtk::HBox hbox;
+  //do listy
+   Glib::RefPtr<Gtk::ListStore> ref_tree_model;
+   DeviceTreeNode dtn;
 
   //bluetooth
-  std::list<DeviceTreeNode*> devices;
+  std::list<Device*> devices;
   //BluezBluetooth bluetooth;
   //funkcja szukająca
   void searchDevices();
@@ -58,8 +61,11 @@ private:
   WaitingDialog *wd;
 
 
-  std::thread *btthread;
+  std::thread *btthread, *btthread2;
   bool exited;
+  
+  //funkcja restartująca wątek szukania.
+  void restart();
 };
 
 #endif	/* DEVICESELECTOR_H */
