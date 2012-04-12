@@ -50,20 +50,16 @@ DeviceSelector::DeviceSelector()
 DeviceSelector::~DeviceSelector() // na razie będzie czekanie na zakończenie szukania //TODO zmienić zakończenie threada
 {
   wd = new WaitingDialog("Czekaj na zakończenie szukania urządzeń.", false);
-  std::thread t(&WaitingDialog::run, wd);
-  btthread->join();
-  s_close_waiting_dialog.emit();
+  s_close_waiting_dialog.connect(sigc::mem_fun(*wd, &WaitingDialog::on_close_waiting_dialog));
+  std::thread t(&DeviceSelector::wait_for_end, this);
+  wd->run();
   t.join();
   delete wd;
   delete btthread;
   std::cout << "DELETE\n";
   for (auto d : devices)
   {
-    //    if (d)
-    //    {
-    //    delete d;
-    //}
-    //    d = 0;
+//    delete d;
   }
 }
 
@@ -86,4 +82,11 @@ void DeviceSelector::on_devices_ready()
 sigc::signal<void> DeviceSelector::signal_devices_ready()
 {
   return devices_ready;
+}
+
+void DeviceSelector::wait_for_end()
+{
+  btthread->join();
+  s_close_waiting_dialog.emit();
+  std::cout << "EMMITED\n";
 }
