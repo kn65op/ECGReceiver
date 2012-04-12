@@ -9,24 +9,27 @@
 #define	DEVICESELECTOR_H
 
 #include <gtkmm-3.0/gtkmm.h>
+#include <thread>
 #include <list>
 #include <mutex>
 #include <sigc++-2.0/sigc++/sigc++.h>
 
-#include "Device.h"
-#include "BluezBluetooth.h"
+#include <Device.h>
 
-class DeviceSelector : public Gtk::Dialog//, public sigc::trackable
+#include "NeedWaitingDialog.h"
+#include "WaitingDialog.h"
+
+class DeviceSelector : public Gtk::Dialog, NeedWaitingDialog// public sigc::trackable
 {
 public:
   DeviceSelector();
   DeviceSelector(const DeviceSelector& orig) = delete;
   virtual ~DeviceSelector();
-  
+
   //sygnał
   sigc::signal<void> signal_devices_ready();
 private:
-  
+
   //składowe widoku
   Gtk::TreeView view;
   Gtk::ScrolledWindow scrolled_window;
@@ -35,7 +38,7 @@ private:
   //Gtk::Button refresh;
   Gtk::VBox vbox;
   Gtk::HBox hbox;
-  
+
   //bluetooth
   std::list<Device> devices;
   //BluezBluetooth bluetooth;
@@ -47,6 +50,15 @@ private:
   sigc::signal<void> devices_ready;
   //działania na wywołanie sygnału
   void on_devices_ready();
+  //czekanie na koniec
+  void wait_for_end();
+
+  //Dialog do czekania
+  WaitingDialog *wd;
+
+
+  std::thread *btthread;
+  bool exited;
 };
 
 #endif	/* DEVICESELECTOR_H */

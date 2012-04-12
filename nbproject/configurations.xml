@@ -4,9 +4,11 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceSelector.cpp</itemPath>
       <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/include/DeviceSelector.h</itemPath>
+      <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/include/DeviceTreeNode.h</itemPath>
       <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/include/ECGReceiver.h</itemPath>
+      <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/include/NeedWaitingDialog.h</itemPath>
+      <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/include/WaitingDialog.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -15,7 +17,11 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceSelector.cpp</itemPath>
+      <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceTreeNode.cpp</itemPath>
       <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGReceiver.cpp</itemPath>
+      <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/NeedWaitingDialog.cpp</itemPath>
+      <itemPath>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/WaitingDialog.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"

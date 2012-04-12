@@ -36,7 +36,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/_ext/1309969090/DeviceSelector.o \
-	${OBJECTDIR}/_ext/1309969090/ECGReceiver.o
+	${OBJECTDIR}/_ext/1309969090/DeviceTreeNode.o \
+	${OBJECTDIR}/_ext/1309969090/ECGReceiver.o \
+	${OBJECTDIR}/_ext/1309969090/WaitingDialog.o \
+	${OBJECTDIR}/_ext/1309969090/NeedWaitingDialog.o
 
 
 # C Compiler Flags
@@ -75,10 +78,25 @@ ${OBJECTDIR}/_ext/1309969090/DeviceSelector.o: /home/tomko/moje_dziela/Telemedyc
 	${RM} $@.d
 	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/DeviceSelector.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceSelector.cpp
 
+${OBJECTDIR}/_ext/1309969090/DeviceTreeNode.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceTreeNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
+	${RM} $@.d
+	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/DeviceTreeNode.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceTreeNode.cpp
+
 ${OBJECTDIR}/_ext/1309969090/ECGReceiver.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGReceiver.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
 	${RM} $@.d
 	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/ECGReceiver.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGReceiver.cpp
+
+${OBJECTDIR}/_ext/1309969090/WaitingDialog.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/WaitingDialog.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
+	${RM} $@.d
+	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/WaitingDialog.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/WaitingDialog.cpp
+
+${OBJECTDIR}/_ext/1309969090/NeedWaitingDialog.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/NeedWaitingDialog.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
+	${RM} $@.d
+	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/NeedWaitingDialog.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/NeedWaitingDialog.cpp
 
 # Subprojects
 .build-subprojects:
