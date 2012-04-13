@@ -21,10 +21,15 @@ DeviceSelector::DeviceSelector()
   //przyciski
   ok.set_label("OK");
   cancel.set_label("Anuluj");
+  start_search.set_label("Szukaj urządzeń");
 
   //umieszczenie prezycisków
   hbox.pack_start(ok);
   hbox.pack_start(cancel);
+  hbox.pack_start(start_search);
+  
+  //łączenie przycisków z akcjami
+  //start_search.signal_clicked().
 
   
   //widok listy
@@ -61,12 +66,14 @@ DeviceSelector::DeviceSelector()
   {
     btthread = new std::thread(&DeviceSelector::searchDevices, this);
     btthread2 = 0;
+    start_search.set_visible(false);
   }
   else //brak bluetootha włączonego
   {
     Gtk::MessageDialog md("Brak włączonego bluetootha");
     md.run();
     btthread = 0;
+    start_search.set_visible(true);
   }
 }
 

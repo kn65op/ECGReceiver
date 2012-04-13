@@ -36,6 +36,7 @@ private:
   Gtk::ScrolledWindow scrolled_window;
   Gtk::Button ok;
   Gtk::Button cancel;
+  Gtk::Button start_search;
   //Gtk::Button refresh;
   Gtk::VBox vbox;
   Gtk::HBox hbox;
