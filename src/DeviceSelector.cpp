@@ -16,6 +16,8 @@
 
 DeviceSelector::DeviceSelector()
 {
+  //domyślny rozmiar okna
+  set_default_size(600, 300);
   //przyciski
   ok.set_label("OK");
   cancel.set_label("Anuluj");
@@ -24,22 +26,26 @@ DeviceSelector::DeviceSelector()
   hbox.pack_start(ok);
   hbox.pack_start(cancel);
 
+  
   //widok listy
   scrolled_window.add(view);
   ref_tree_model = Gtk::ListStore::create(dtn);
   view.set_model(ref_tree_model);
+  scrolled_window.set_size_request(400,300);
 
   //kolumny
   view.append_column("Nazwa", dtn.col_name);
   view.append_column("MAC", dtn.col_MAC);
 
   //umieszczenie pionowe
-  vbox.pack_end(hbox);
-  vbox.pack_start(scrolled_window);
+  //vbox.pack_start(scrolled_window, Gtk::PACK_EXPAND_PADDING);
+  //vbox.pack_end(hbox, Gtk::PACK_SHRINK);
 
   //umieszczenie vboxa w oknie
   Gtk::Box *tmp = get_content_area();
-  tmp->add(vbox);
+  tmp->pack_start(scrolled_window, Gtk::PACK_EXPAND_PADDING);
+  tmp->pack_end(hbox, Gtk::PACK_SHRINK);
+  //tmp->pack_start(vbox, Gtk::PACK_EXPAND_WIDGET);
 
   //wyświetlenie
   tmp->show_all_children(true);
