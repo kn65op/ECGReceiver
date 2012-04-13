@@ -69,6 +69,16 @@ private:
   void restart();
   //czy kończymy
   bool exiting;
+  
+  //funkcje do obsługi przycisków
+  void start_search_clicked();
+  void ok_clicked();
+  void cancel_clicked();
+  
+  /**
+   * Funkcja startująca wyszukiwanie urządzeń.
+   */
+  void search();
 };
 
 #endif	/* DEVICESELECTOR_H */

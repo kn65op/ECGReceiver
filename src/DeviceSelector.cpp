@@ -27,16 +27,18 @@ DeviceSelector::DeviceSelector()
   hbox.pack_start(ok);
   hbox.pack_start(cancel);
   hbox.pack_start(start_search);
-  
-  //łączenie przycisków z akcjami
-  //start_search.signal_clicked().
 
-  
+  //łączenie przycisków z akcjami
+  start_search.signal_clicked().connect(sigc::mem_fun(*this, &DeviceSelector::start_search_clicked));
+  ok.signal_clicked().connect(sigc::mem_fun(*this, &DeviceSelector::ok_clicked));
+  cancel.signal_clicked().connect(sigc::mem_fun(*this, &DeviceSelector::cancel_clicked));
+
+
   //widok listy
   scrolled_window.add(view);
   ref_tree_model = Gtk::ListStore::create(dtn);
   view.set_model(ref_tree_model);
-  scrolled_window.set_size_request(400,300);
+  scrolled_window.set_size_request(400, 300);
 
   //kolumny
   view.append_column("Nazwa", dtn.col_name);
@@ -61,20 +63,7 @@ DeviceSelector::DeviceSelector()
   exiting = exited = false;
 
   //szukanie urządzeń
-  //std::thread t(std::mem_fn<void, DeviceSelector>(&DeviceSelector::searchDevices));
-  if (BluezBluetooth::isDeviceOn()) //bluetooth jest włączony
-  {
-    btthread = new std::thread(&DeviceSelector::searchDevices, this);
-    btthread2 = 0;
-    start_search.set_visible(false);
-  }
-  else //brak bluetootha włączonego
-  {
-    Gtk::MessageDialog md("Brak włączonego bluetootha");
-    md.run();
-    btthread = 0;
-    start_search.set_visible(true);
-  }
+  search();
 }
 
 DeviceSelector::~DeviceSelector() // na razie będzie czekanie na zakończenie szukania //TODO zmienić zakończenie threada
@@ -169,4 +158,38 @@ void DeviceSelector::restart()
     delete btthread;
   }
   btthread = new std::thread(&DeviceSelector::searchDevices, this);
+}
+
+void DeviceSelector::start_search_clicked()
+{
+  search();
+}
+
+void DeviceSelector::ok_clicked()
+{
+
+}
+
+void DeviceSelector::cancel_clicked()
+{
+
+}
+
+void DeviceSelector::search()
+{
+  //szukanie urządzeń
+  //std::thread t(std::mem_fn<void, DeviceSelector>(&DeviceSelector::searchDevices));
+  if (BluezBluetooth::isDeviceOn()) //bluetooth jest włączony
+  {
+    btthread = new std::thread(&DeviceSelector::searchDevices, this);
+    btthread2 = 0;
+    start_search.set_visible(false);
+  }
+  else //brak bluetootha włączonego
+  {
+    Gtk::MessageDialog md("Brak włączonego bluetootha");
+    md.run();
+    btthread = 0;
+    start_search.set_visible(true);
+  }
 }
