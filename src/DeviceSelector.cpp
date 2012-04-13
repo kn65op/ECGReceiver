@@ -44,32 +44,44 @@ DeviceSelector::DeviceSelector()
   //wyświetlenie
   tmp->show_all_children(true);
 
-  //szukanie urządzeń
-  //std::thread t(std::mem_fn<void, DeviceSelector>(&DeviceSelector::searchDevices));
-  btthread = new std::thread(&DeviceSelector::searchDevices, this);
-  btthread2 = 0;
-
   //wyświetlanie urządzeń
   this->signal_devices_ready().connect(sigc::mem_fun(*this, &DeviceSelector::on_devices_ready));
 
   exiting = exited = false;
+
+  //szukanie urządzeń
+  //std::thread t(std::mem_fn<void, DeviceSelector>(&DeviceSelector::searchDevices));
+  if (BluezBluetooth::isDeviceOn()) //bluetooth jest włączony
+  {
+    btthread = new std::thread(&DeviceSelector::searchDevices, this);
+    btthread2 = 0;
+  }
+  else //brak bluetootha włączonego
+  {
+    Gtk::MessageDialog md("Brak włączonego bluetootha");
+    md.run();
+    btthread = 0;
+  }
 }
 
 DeviceSelector::~DeviceSelector() // na razie będzie czekanie na zakończenie szukania //TODO zmienić zakończenie threada
 {
-  exiting = true;
-  wd = new WaitingDialog("Czekaj na zakończenie szukania urządzeń.", false);
-  s_close_waiting_dialog.connect(sigc::mem_fun(*wd, &WaitingDialog::on_close_waiting_dialog));
-  std::thread t(&DeviceSelector::wait_for_end, this);
-  wd->run();
-  t.join();
-  delete wd;
-  if (btthread) delete btthread;
-  if (btthread2) delete btthread2;
-  std::cout << "DELETE\n";
-  for (auto d : devices)
+  if (btthread) // nie było urządzenia bluetooth
   {
-    delete d;
+    exiting = true;
+    wd = new WaitingDialog("Czekaj na zakończenie szukania urządzeń.", false);
+    s_close_waiting_dialog.connect(sigc::mem_fun(*wd, &WaitingDialog::on_close_waiting_dialog));
+    std::thread t(&DeviceSelector::wait_for_end, this);
+    wd->run();
+    t.join();
+    delete wd;
+    if (btthread) delete btthread;
+    if (btthread2) delete btthread2;
+    std::cout << "DELETE\n";
+    for (auto d : devices)
+    {
+      delete d;
+    }
   }
 }
 
@@ -83,15 +95,15 @@ void DeviceSelector::searchDevices()
   Gtk::ListStore::iterator modit = ref_tree_model->children().begin();
   while (it != devices.end()) //czyszczenie nowej i starej listy urządzeń
   {
-    if (!bt.deleteByMAC((*it)->getMAC())) // jeśli nie usunięto (tzn. nie ma już urządzenia) to usuwamy z aktualnej listy.
-    {
-      it = devices.erase(it);
-      modit = ref_tree_model->erase(modit);
-    }
-    else
+    if (bt.deleteByMAC((*it)->getMAC())) // jeśli usunięto z nowej listy to (tzn. nie ma już urządzenia) to usuwamy z aktualnej listy.
     {
       ++it;
       ++modit;
+    }
+    else
+    {
+      it = devices.erase(it);
+      modit = ref_tree_model->erase(modit);
     }
 
   }
