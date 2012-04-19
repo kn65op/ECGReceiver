@@ -20,6 +20,7 @@ DeviceSelector::DeviceSelector()
   set_default_size(600, 300);
   //przyciski
   ok.set_label("OK");
+  ok.set_sensitive(false);
   cancel.set_label("Anuluj");
   start_search.set_label("Szukaj urządzeń");
 
@@ -102,9 +103,16 @@ void DeviceSelector::searchDevices()
     row[dtn.col_name] = devices.back()->getName();
     row[dtn.col_MAC] = devices.back()->getMAC();
   }
+  if (bt.size() > 0)
+  {
+    ok.set_sensitive(false);
+  }
+  else
+  {
+    ok.set_sensitive(true);
+  }
   devices_mutex.unlock();
   devices_ready.emit();
-  std::cout << "EMMITED\n";
 }
 
 void DeviceSelector::on_devices_ready()
@@ -197,4 +205,20 @@ void DeviceSelector::quit()
       delete d;
     }
   }
+}
+
+Device DeviceSelector::getDevice()
+{
+  devices_mutex.lock();
+  Gtk::ListStore::iterator it = view.get_selection()->get_selected();
+  std::string MAC = (*it)[dtn.col_MAC];
+  for (auto d : devices)
+  {
+    if (d->getMAC() == MAC)
+    {
+      devices_mutex.unlock();
+      return Device(*d);
+    }
+  }
+  devices_mutex.unlock();
 }

@@ -29,6 +29,11 @@ public:
 
   //sygnał
   sigc::signal<void> signal_devices_ready();
+  /**
+   * Funkcja zwracająca wybrane urządzenie.
+   * @return Wybrane urządzenie.
+   */
+  Device getDevice();
 private:
 
   //składowe widoku
