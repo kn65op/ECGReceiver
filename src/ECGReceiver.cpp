@@ -26,11 +26,14 @@ ECGReceiver::ECGReceiver()
 ECGReceiver::~ECGReceiver()
 {
 }
-
+//TODO: usunąć
+#include <iostream>
 void ECGReceiver::on_select_device_clicked()
 {
   DeviceSelector ds;
   ds.run();
+  std::cout << "SDASD\n";
+ // device = ds.getDevice();
   //TODO pobranie wyniku
 }
 

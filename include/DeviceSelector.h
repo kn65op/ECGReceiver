@@ -79,6 +79,10 @@ private:
    * Funkcja startująca wyszukiwanie urządzeń.
    */
   void search();
+  /**
+   * Funkcja zamykająca.
+   */
+  void quit();
 };
 
 #endif	/* DEVICESELECTOR_H */

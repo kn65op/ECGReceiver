@@ -9,6 +9,7 @@
 #define	ECGRECEIVER_H
 
 #include <gtkmm-3.0/gtkmm.h>
+#include <Device.h>
 
 class ECGReceiver : public Gtk::Window
 {
@@ -17,13 +18,15 @@ public:
   ECGReceiver(const ECGReceiver& orig) = delete; //blokowanie kopiowania
   virtual ~ECGReceiver();
 private:
-  
+
   //obsługa sygnałów
   void on_select_device_clicked();
-  
+
   //elementy składowe
   Gtk::Button select_device;
-  
+
+  //urządzenie zdalne
+  Device device;
 };
 
 #endif	/* ECGRECEIVER_H */

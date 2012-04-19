@@ -68,23 +68,7 @@ DeviceSelector::DeviceSelector()
 
 DeviceSelector::~DeviceSelector() // na razie będzie czekanie na zakończenie szukania //TODO zmienić zakończenie threada
 {
-  if (btthread) // nie było urządzenia bluetooth
-  {
-    exiting = true;
-    wd = new WaitingDialog("Czekaj na zakończenie szukania urządzeń.", false);
-    s_close_waiting_dialog.connect(sigc::mem_fun(*wd, &WaitingDialog::on_close_waiting_dialog));
-    std::thread t(&DeviceSelector::wait_for_end, this);
-    wd->run();
-    t.join();
-    delete wd;
-    if (btthread) delete btthread;
-    if (btthread2) delete btthread2;
-    std::cout << "DELETE\n";
-    for (auto d : devices)
-    {
-      delete d;
-    }
-  }
+  quit();
 }
 
 void DeviceSelector::searchDevices()
@@ -167,12 +151,12 @@ void DeviceSelector::start_search_clicked()
 
 void DeviceSelector::ok_clicked()
 {
-
+  response(Gtk::ResponseType::RESPONSE_OK);
 }
 
 void DeviceSelector::cancel_clicked()
 {
-
+  response(Gtk::ResponseType::RESPONSE_CANCEL);
 }
 
 void DeviceSelector::search()
@@ -191,5 +175,26 @@ void DeviceSelector::search()
     md.run();
     btthread = 0;
     start_search.set_visible(true);
+  }
+}
+
+void DeviceSelector::quit()
+{
+  if (btthread) // nie było urządzenia bluetooth
+  {
+    exiting = true;
+    wd = new WaitingDialog("Czekaj na zakończenie szukania urządzeń.", false);
+    s_close_waiting_dialog.connect(sigc::mem_fun(*wd, &WaitingDialog::on_close_waiting_dialog));
+    std::thread t(&DeviceSelector::wait_for_end, this);
+    wd->run();
+    t.join();
+    delete wd;
+    if (btthread) delete btthread;
+    if (btthread2) delete btthread2;
+    std::cout << "DELETE\n";
+    for (auto d : devices)
+    {
+      delete d;
+    }
   }
 }
