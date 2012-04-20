@@ -33,7 +33,7 @@ public:
    * Funkcja zwracająca wybrane urządzenie.
    * @return Wybrane urządzenie.
    */
-  Device getDevice();
+  Device *getDevice();
 private:
 
   //składowe widoku

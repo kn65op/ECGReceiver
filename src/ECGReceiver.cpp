@@ -21,6 +21,9 @@ ECGReceiver::ECGReceiver()
   
   //umieszczenie elementów
   add(select_device);
+
+  //zerowanie device
+  device = 0;
 }
 
 ECGReceiver::~ECGReceiver()

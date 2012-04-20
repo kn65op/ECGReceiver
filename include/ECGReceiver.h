@@ -26,7 +26,7 @@ private:
   Gtk::Button select_device;
 
   //urządzenie zdalne
-  Device device; //daj tu wskaźnik
+  Device *device; //daj tu wskaźnik
 };
 
 #endif	/* ECGRECEIVER_H */

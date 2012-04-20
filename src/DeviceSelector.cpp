@@ -202,12 +202,15 @@ void DeviceSelector::quit()
     std::cout << "DELETE\n";
     for (auto d : devices)
     {
-      delete d;
+      if (d)
+      {
+        delete d;
+      }
     }
   }
 }
 
-Device DeviceSelector::getDevice()
+Device* DeviceSelector::getDevice()
 {
   devices_mutex.lock();
   Gtk::ListStore::iterator it = view.get_selection()->get_selected();
@@ -217,7 +220,7 @@ Device DeviceSelector::getDevice()
     if (d->getMAC() == MAC)
     {
       devices_mutex.unlock();
-      return Device(*d);
+      return new Device(*d);
     }
   }
   devices_mutex.unlock();
