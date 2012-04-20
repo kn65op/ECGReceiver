@@ -26,13 +26,55 @@ ECGReceiver::ECGReceiver()
   add(main_box);
   main_box.pack_end(buttons_box);
   buttons_box.pack_start(select_device);
-  main_box.pack_start(device_description_box);
+  main_box.pack_end(device_description_box);
   device_description_box.pack_start(name_box);
   device_description_box.pack_end(MAC_box);
   name_box.pack_start(name_text);
   name_box.pack_end(name);
   MAC_box.pack_start(MAC_text);
   MAC_box.pack_end(MAC);
+
+  //Tworzenie menu
+  ref_actiongroup = Gtk::ActionGroup::create();
+
+  //file menu
+  ref_actiongroup->add(Gtk::Action::create("LoadDevice", Gtk::Stock::OPEN, "_Otwórz"), sigc::mem_fun(*this, &ECGReceiver::openDeviceFromFile));
+  ref_actiongroup->add(Gtk::Action::create("SaveDevice", Gtk::Stock::SAVE, "Zapi_sz"), sigc::mem_fun(*this, &ECGReceiver::saveDeviceToFile));
+  ref_actiongroup->add(Gtk::Action::create("FileMenu", "Plik"));
+
+  //uimanager
+  ref_uimanager = Gtk::UIManager::create();
+  ref_uimanager->insert_action_group(ref_actiongroup);
+
+  add_accel_group(ref_uimanager->get_accel_group());
+
+  //layout
+  Glib::ustring ui_info = 
+	  "<ui>"
+	  "  <menubar name='MenuBar'>"
+	  "    <menu action='FileMenu'>"
+	  "       <menuitem action='LoadDevice'/>"
+	  "       <menuitem action='SaveDevice'/>"
+	  "    </menu>"
+	  "  </menubar>"
+	  "</ui>";
+
+  try
+  {
+    ref_uimanager->add_ui_from_string(ui_info);
+  }
+  catch(const Glib::Error& ex)
+  {
+    exit(123);
+//    std::cerr << "budowanie menu nie wyszło: " << ex.what();
+  }
+  
+  //dodanie do widoku menu
+  Gtk::Widget * menubar = ref_uimanager->get_widget("/MenuBar");
+  if (menubar)
+  {
+    main_box.pack_start(*menubar, Gtk::PACK_SHRINK);
+  }
 
   //wyświetlanie
   main_box.show_all_children(true);
@@ -70,4 +112,14 @@ void ECGReceiver::setDeviceInfo()
     name.set_label("Brak urządzenia");
     MAC.set_label("Brak urządzenia");
   }
+}
+
+void ECGReceiver::openDeviceFromFile()
+{
+  //TODO otwieranie
+}
+
+void ECGReceiver::saveDeviceToFile() const
+{
+  //TODO zapis
 }
