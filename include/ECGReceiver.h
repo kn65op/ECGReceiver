@@ -46,7 +46,7 @@ private:
    */
   void setDeviceInfo();
   // Funkcja do obsługi zapisu
-  void saveDeviceToFile() const;
+  void saveDeviceToFile();
   // Funkcja do obsługi odczytu
   void openDeviceFromFile();
 };
