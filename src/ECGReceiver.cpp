@@ -131,6 +131,11 @@ void ECGReceiver::openDeviceFromFile()
   Gtk::FileChooserDialog fcdialog("Wybierz plik do wczytania", Gtk::FILE_CHOOSER_ACTION_OPEN);
   fcdialog.set_transient_for(*this);
 
+  Glib::RefPtr<Gtk::FileFilter> filter_bde = Gtk::FileFilter::create();
+  filter_bde->set_name("Pliki device");
+  filter_bde->add_pattern("*.bde");
+  fcdialog.add_filter(filter_bde);
+
   //przyciski
   fcdialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
   fcdialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
@@ -159,13 +164,24 @@ void ECGReceiver::saveDeviceToFile()
   Gtk::FileChooserDialog fcdialog("Wybierz plik do zapisu", Gtk::FILE_CHOOSER_ACTION_SAVE);
   fcdialog.set_transient_for(*this);
 
+  Glib::RefPtr<Gtk::FileFilter> filter_bde = Gtk::FileFilter::create();
+  filter_bde->set_name("Pliki device");
+  filter_bde->add_pattern("*.bde");
+  fcdialog.add_filter(filter_bde);
+
   //przyciski
   fcdialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
   fcdialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
 
   if (fcdialog.run() == Gtk::RESPONSE_OK)
   {
-    std::ofstream file(fcdialog.get_filename(), std::ios::out);
+    std::string fn = fcdialog.get_filename();
+    int s = fn.size();
+    if (!(s > 3 && fn[--s] == 'e' && fn[--s] == 'd' && fn[--s] == 'b' && fn[--s] == '.'))
+    {
+      fn += ".bde";
+    }
+    std::ofstream file(fn, std::ios::out);
     file << *device;
     file.close();
   }
@@ -173,7 +189,7 @@ void ECGReceiver::saveDeviceToFile()
 
 void ECGReceiver::on_start_stop_clicked()
 {
-  if(recording) // nagrywanie
+  if (recording) // nagrywanie
   {
     start_stop.set_label("Start");
     recording = false;
