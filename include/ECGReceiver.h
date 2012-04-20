@@ -18,9 +18,12 @@ public:
   ECGReceiver(const ECGReceiver& orig) = delete; //blokowanie kopiowania
   virtual ~ECGReceiver();
 private:
+  //czy jest nagrywane
+  bool recording;
 
   //obsługa sygnałów
   void on_select_device_clicked();
+  void on_start_stop_clicked();
 
   //boxy
   Gtk::HBox name_box;

@@ -17,8 +17,14 @@ ECGReceiver::ECGReceiver()
   set_size_request(200, 200);
 
   //przycik wyboru device
-  select_device.set_label("Wybierz urządzenie");
+  select_device.set_label("Wyszukaj urządzenie");
   select_device.signal_clicked().connect(sigc::mem_fun(*this, &ECGReceiver::on_select_device_clicked));
+
+  //startstop
+  start_stop.set_label("Start");
+  start_stop.set_sensitive(false);
+  start_stop.signal_clicked().connect(sigc::mem_fun(*this, &ECGReceiver::on_start_stop_clicked));
+  recording = false;
 
   //device_info
   name_text.set_label("Nazwa: ");
@@ -28,6 +34,7 @@ ECGReceiver::ECGReceiver()
   add(main_box);
   main_box.pack_end(buttons_box);
   buttons_box.pack_start(select_device);
+  buttons_box.pack_end(start_stop);
   main_box.pack_end(device_description_box);
   device_description_box.pack_start(name_box);
   device_description_box.pack_end(MAC_box);
@@ -108,11 +115,13 @@ void ECGReceiver::setDeviceInfo()
   {
     name.set_label(device->getName());
     MAC.set_label(device->getMAC());
+    start_stop.set_sensitive(true);
   }
   else
   {
     name.set_label("Brak urządzenia");
     MAC.set_label("Brak urządzenia");
+    start_stop.set_sensitive(false);
   }
 }
 
@@ -159,5 +168,21 @@ void ECGReceiver::saveDeviceToFile()
     std::ofstream file(fcdialog.get_filename(), std::ios::out);
     file << *device;
     file.close();
+  }
+}
+
+void ECGReceiver::on_start_stop_clicked()
+{
+  if(recording) // nagrywanie
+  {
+    start_stop.set_label("Start");
+    recording = false;
+    //TODO dopisać
+  }
+  else //nie nagrywanie
+  {
+    start_stop.set_label("Stop");
+    recording = true;
+    //TODO dopisać
   }
 }
