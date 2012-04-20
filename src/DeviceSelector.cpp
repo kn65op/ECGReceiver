@@ -105,11 +105,11 @@ void DeviceSelector::searchDevices()
   }
   if (bt.size() > 0)
   {
-    ok.set_sensitive(false);
+    ok.set_sensitive(true);
   }
   else
   {
-    ok.set_sensitive(true);
+    ok.set_sensitive(false);
   }
   devices_mutex.unlock();
   devices_ready.emit();
