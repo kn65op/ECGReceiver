@@ -6,16 +6,3 @@
  */
 
 #include "../include/ECGSignal.h"
-
-ECGSignal::ECGSignal()
-{
-}
-
-ECGSignal::ECGSignal(const ECGSignal& orig)
-{
-}
-
-ECGSignal::~ECGSignal()
-{
-}
-

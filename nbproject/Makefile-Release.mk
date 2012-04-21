@@ -39,7 +39,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/1309969090/DeviceTreeNode.o \
 	${OBJECTDIR}/_ext/1309969090/ECGReceiver.o \
 	${OBJECTDIR}/_ext/1309969090/WaitingDialog.o \
-	${OBJECTDIR}/_ext/1309969090/NeedWaitingDialog.o
+	${OBJECTDIR}/_ext/1309969090/NeedWaitingDialog.o \
+	${OBJECTDIR}/_ext/1309969090/ECGSignal.o
 
 
 # C Compiler Flags
@@ -95,6 +96,11 @@ ${OBJECTDIR}/_ext/1309969090/NeedWaitingDialog.o: /home/tomko/moje_dziela/Teleme
 	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/NeedWaitingDialog.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/NeedWaitingDialog.cpp
+
+${OBJECTDIR}/_ext/1309969090/ECGSignal.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGSignal.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/ECGSignal.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGSignal.cpp
 
 # Subprojects
 .build-subprojects:
