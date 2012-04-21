@@ -127,7 +127,7 @@ public:
    * @param end Iterator do pierszego za ostatnim elementu.
    * @return true jeśli zapis jest skończony, false w przeciwnym wyapdku.
    */
-  bool getAllData(it_data_t & start, it_data_t & end)
+  bool getAllData(it_vector_data_t & start, it_vector_data_t & end)
   {
     if (recording)
     {

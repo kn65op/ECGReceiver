@@ -193,13 +193,16 @@ void ECGReceiver::on_start_stop_clicked()
   {
     start_stop.set_label("Start");
     recording = false;
+    
     //TODO dopisać
   }
-  else //nie nagrywanie
+  else //koniec nagrywania
   {
     start_stop.set_label("Stop");
     recording = true;
-    //TODO dopisać
+    ECGSignal<int>::it_vector_data_t begin, end;
+    signal->getAllData(begin, end);
+    //TODO zapis do bazy
   }
 }
 

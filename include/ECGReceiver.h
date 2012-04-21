@@ -9,7 +9,10 @@
 #define	ECGRECEIVER_H
 
 #include <gtkmm-3.0/gtkmm.h>
+#include <thread>
+
 #include <Device.h>
+#include "ECGSignal.h"
 
 class ECGReceiver : public Gtk::Window
 {
@@ -20,7 +23,11 @@ public:
 private:
   //czy jest nagrywane
   bool recording;
-  
+  ECGSignal<int> *signal;
+  int signal_handler;
+
+  //wątki
+  std::thread *reader, *writer;
 
   //obsługa sygnałów
   void on_select_device_clicked();
@@ -53,11 +60,11 @@ private:
   void saveDeviceToFile();
   // Funkcja do obsługi odczytu
   void openDeviceFromFile();
-  //Funkcja do pobierająca dane
+  //Funkcja do pobierająca dane korzystająca z ECGSignal
   void getData();
-  //funkcja zapisująca dane do bazy
+  //funkcja zapisująca dane do bazy na końcu pobierania
 
-  //funkcja odbierająca żądania na websocket
+  //funkcja odbierająca żądania na websocket 
 
   //funkcja obsługująca web socket
 };
