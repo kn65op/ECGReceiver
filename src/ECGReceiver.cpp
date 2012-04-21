@@ -10,6 +10,7 @@
 #include "../include/DeviceSelector.h"
 
 #include <fstream>
+#include <vector>
 
 ECGReceiver::ECGReceiver()
 {
@@ -189,21 +190,43 @@ void ECGReceiver::saveDeviceToFile()
 
 void ECGReceiver::on_start_stop_clicked()
 {
-  if (recording) // nagrywanie
+  if (recording) //koniec nagrywania
   {
     start_stop.set_label("Start");
+    recording_mutex.lock();
     recording = false;
-    
+    recording_mutex.unlock();
+    reader = new std::thread(&ECGReceiver::getData, this);
     //TODO dopisać
   }
-  else //koniec nagrywania
+  else //początek nagrywania
   {
     start_stop.set_label("Stop");
+    recording_mutex.lock();
     recording = true;
+    recording_mutex.unlock();
     ECGSignal<int>::it_vector_data_t begin, end;
     signal->getAllData(begin, end);
     //TODO zapis do bazy
   }
 }
 
- 
+void ECGReceiver::getData()
+{
+  std::vector<int> vals(3);
+  device->sendChar('s');
+  recording_mutex.lock();
+  bool rec = recording;
+  recording_mutex.unlock();
+  while (rec)
+  {
+    for (int v : vals)
+    {
+      v = device->receiveUInt4();
+    }
+    signal->store<std::vector<int>::iterator>(vals.begin(), vals.end());
+    recording_mutex.lock();
+    bool rec = recording;
+    recording_mutex.unlock();
+  }
+}

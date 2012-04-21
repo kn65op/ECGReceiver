@@ -10,6 +10,7 @@
 
 #include <gtkmm-3.0/gtkmm.h>
 #include <thread>
+#include <mutex>
 
 #include <Device.h>
 #include "ECGSignal.h"
@@ -28,6 +29,7 @@ private:
 
   //wątki
   std::thread *reader, *writer;
+  std::mutex recording_mutex;
 
   //obsługa sygnałów
   void on_select_device_clicked();

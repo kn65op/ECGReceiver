@@ -18,7 +18,7 @@ template <class T> class ECGSignal
 public:
 
   typedef std::list<T> data_t;
-  typedef typename std::list<T>::iterator it_data_t;
+  typedef typename data_t::iterator it_data_t;
   typedef std::vector<data_t> vector_data_t;
   typedef typename vector_data_t::iterator it_vector_data_t;
   typedef std::vector<it_data_t> vector_it_data_t;
@@ -68,13 +68,12 @@ public:
    * @param begin Iterator do pierwszego elementu porcji danych.
    * @param end Iterator do pierwszego za ostatnim elementem porcji danych.
    */
-  template <class InputIterator> void store(InputIterator & begin, InputIterator & end)
+  template <class InputIterator> void store(InputIterator begin, InputIterator end)
   {
-    InputIterator input_it = begin;
     mx.lock();
-    for (vector_it_data_t it = data_signal.begin(); ++it, ++input_it; input_it != end)
+    for (it_vector_data_t it = data_signal.begin(); begin != end; ++it, ++begin)
     {
-      it->push_back(*input_it);
+      it->push_back(*begin);
     }
     mx.unlock();
   }
