@@ -20,6 +20,7 @@ public:
 private:
   //czy jest nagrywane
   bool recording;
+  
 
   //obsługa sygnałów
   void on_select_device_clicked();
@@ -52,6 +53,13 @@ private:
   void saveDeviceToFile();
   // Funkcja do obsługi odczytu
   void openDeviceFromFile();
+  //Funkcja do pobierająca dane
+  void getData();
+  //funkcja zapisująca dane do bazy
+
+  //funkcja odbierająca żądania na websocket
+
+  //funkcja obsługująca web socket
 };
 
 #endif	/* ECGRECEIVER_H */

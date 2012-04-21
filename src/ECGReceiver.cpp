@@ -202,3 +202,5 @@ void ECGReceiver::on_start_stop_clicked()
     //TODO dopisać
   }
 }
+
+void 
