@@ -196,8 +196,11 @@ void ECGReceiver::on_start_stop_clicked()
     recording_mutex.lock();
     recording = false;
     recording_mutex.unlock();
-    reader = new std::thread(&ECGReceiver::getData, this);
-    //TODO dopisać
+    reader->join(); //czekanie na skończenie nagrywania 
+    ECGSignal<int>::it_vector_data_t begin, end;
+    signal->getAllData(begin, end);
+    //TODO dopisać zapis do bazy
+    //zapis po http POST do serwera
   }
   else //początek nagrywania
   {
@@ -205,16 +208,15 @@ void ECGReceiver::on_start_stop_clicked()
     recording_mutex.lock();
     recording = true;
     recording_mutex.unlock();
-    ECGSignal<int>::it_vector_data_t begin, end;
-    signal->getAllData(begin, end);
-    //TODO zapis do bazy
+    reader = new std::thread(&ECGReceiver::getData, this);
+    //TODO
   }
 }
 
 void ECGReceiver::getData()
 {
   std::vector<int> vals(3);
-  device->sendChar('s');
+  device->sendChar('s'); //start
   recording_mutex.lock();
   bool rec = recording;
   recording_mutex.unlock();
@@ -229,4 +231,5 @@ void ECGReceiver::getData()
     bool rec = recording;
     recording_mutex.unlock();
   }
+  device->sendChar('s'); //stop
 }
