@@ -11,6 +11,7 @@
 
 #include <fstream>
 #include <vector>
+#include "../include/FakeDevice.h"
 
 ECGReceiver::ECGReceiver()
 {
@@ -90,6 +91,9 @@ ECGReceiver::ECGReceiver()
   main_box.show_all_children(true);
   main_box.show();
 
+  //zerowanie signal
+  signal = 0;
+
   //zerowanie device
   device = 0;
 
@@ -146,6 +150,15 @@ void ECGReceiver::openDeviceFromFile()
 
   if (fcdialog.run() == Gtk::RESPONSE_OK)
   {
+    //TODO FOR DEBUG ONLY
+    std::string asd = fcdialog.get_filename();
+    asd = asd.substr(asd.size() - 8);
+    if (asd == "test.bde")
+    {
+      device = new FakeDevice();
+    }
+    //TODO FOR DEBUG ONLY
+
     std::ifstream file(fcdialog.get_filename(), std::ios::in);
     if (!device)
     {
@@ -191,6 +204,7 @@ void ECGReceiver::saveDeviceToFile()
   }
 }
 
+#include <iostream>
 void ECGReceiver::on_start_stop_clicked()
 {
   if (recording) //koniec nagrywania
@@ -200,21 +214,30 @@ void ECGReceiver::on_start_stop_clicked()
     recording = false;
     recording_mutex.unlock();
     reader->join(); //czekanie na skończenie nagrywania 
+    device->stopConnection();
     ECGSignal<int>::it_vector_data_t begin, end;
     signal->getAllData(begin, end);
+    if (signal)
+    {
+      delete signal;
+      signal = 0;
+    }
     //TODO dopisać zapis do bazy
     //zapis po http POST do serwera
   }
   else //początek nagrywania
   {
+    signal = new ECGSignal<int>(3);
     start_stop.set_label("Stop");
     recording_mutex.lock();
     recording = true;
     recording_mutex.unlock();
+    device->startConnection();
     reader = new std::thread(&ECGReceiver::getData, this);
     //TODO uruchomienie serwera oferującgo websockety
   }
 }
+
 
 void ECGReceiver::getData()
 {
@@ -229,12 +252,13 @@ void ECGReceiver::getData()
     {
       v = device->receiveUInt4();
     }
-    signal->store<std::vector<int>::iterator>(vals.begin(), vals.end());
+    signal->store<std::vector<int>::iterator > (vals.begin(), vals.end());
     recording_mutex.lock();
-    bool rec = recording;
+    rec = recording;
     recording_mutex.unlock();
   }
   device->sendChar('s'); //stop
+  std::cout << signal->getSize() << "\n";
 }
 
 void ECGReceiver::createServer()

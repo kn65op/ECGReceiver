@@ -37,7 +37,12 @@ public:
 
   virtual ~ECGSignal()
   {
-
+    for (auto s : data_signal)
+    {
+      s.clear();
+    }
+    data_signal.clear();
+    outs.clear();
   }
 
   /**
@@ -135,6 +140,15 @@ public:
     start = data_signal.begin();
     end = data_signal.end();
     return true;
+  }
+
+  /**
+   * Funkcja zwracająca ilość przechowywanych danych.
+   * @return ilość przechowywanych danych.
+   */
+  int getSize()
+  {
+   return data_signal.size() * data_signal[0].size();
   }
 private:
   //mutex

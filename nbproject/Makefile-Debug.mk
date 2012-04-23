@@ -34,6 +34,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/_ext/1309969090/FakeDevice.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/_ext/1309969090/DeviceSelector.o \
 	${OBJECTDIR}/_ext/1309969090/DeviceTreeNode.o \
@@ -68,6 +69,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ecgreceiver: /home/tomko/moje_dziela/
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ecgreceiver: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ecgreceiver ${OBJECTFILES} ${LDLIBSOPTIONS} 
+
+${OBJECTDIR}/_ext/1309969090/FakeDevice.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/FakeDevice.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
+	${RM} $@.d
+	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/FakeDevice.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/FakeDevice.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
