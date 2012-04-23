@@ -93,6 +93,9 @@ ECGReceiver::ECGReceiver()
   //zerowanie device
   device = 0;
 
+  //zerowanie context
+  context = 0;
+
   setDeviceInfo();
 }
 
@@ -209,7 +212,7 @@ void ECGReceiver::on_start_stop_clicked()
     recording = true;
     recording_mutex.unlock();
     reader = new std::thread(&ECGReceiver::getData, this);
-    //TODO
+    //TODO uruchomienie serwera oferującgo websockety
   }
 }
 
@@ -232,4 +235,8 @@ void ECGReceiver::getData()
     recording_mutex.unlock();
   }
   device->sendChar('s'); //stop
+}
+
+void ECGReceiver::createServer()
+{
 }

@@ -27,6 +27,9 @@ private:
   ECGSignal<int> *signal;
   int signal_handler;
 
+  //serwer
+  struct libwebsocket_context * context;
+
   //wątki
   std::thread *reader, *writer;
   std::mutex recording_mutex;
@@ -69,6 +72,10 @@ private:
   //funkcja odbierająca żądania na websocket 
 
   //funkcja obsługująca web socket
+  /**
+   * Funkcja tworząca serwer do obsługi websocket.
+   */
+  void createServer();
 };
 
 #endif	/* ECGRECEIVER_H */
