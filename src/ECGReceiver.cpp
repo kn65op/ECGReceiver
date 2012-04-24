@@ -269,7 +269,7 @@ void ECGReceiver::getData()
     for (auto &v : vals)
     {
       v = device->receiveUInt4();
-      std::cout << "data: " << v << "\n";
+//      std::cout << "data: " << v << "\n";
     }
     std::vector<u_int32_t>::iterator beg = vals.begin();
     std::vector<u_int32_t>::iterator ed = vals.end();
@@ -342,10 +342,10 @@ unlink("/tmp/ECGFromServer");*/
       //otwarcie pipe, wysłanie id, zamknięcie, utworzenie nowego pipe
       std::ofstream send_handle("/tmp/ECGToServer", std::ios::out);
       int id = signal->readOpen();
-      send_handle << id;
+      send_handle << id << "\n";
       send_handle.close();
       std::string new_pipe = "/tmp/ECGToServer";
-      new_pipe += id;
+      new_pipe += std::to_string(id);
       mkfifo(new_pipe.c_str(), 0600);
       pipes.push_back(new_pipe);
     }
@@ -353,9 +353,9 @@ unlink("/tmp/ECGFromServer");*/
     {
       int id = atoi(tmp.c_str());
       std::string pipe_name = "/tmp/ECGToServer";
-      pipe_name += id;
+      pipe_name += std::to_string(id);
       std::ofstream pipe(pipe_name, std::ios::out);
-      ECGSignal<u_int32_t>::vector_it_data_t start, end;
+      ECGSignal<u_int32_t>::vector_it_data_t start(3), end(3);
       if (signal->readData(id, start, end)) // nowe dane
       {
         while (start[0] != end[0])
@@ -365,10 +365,6 @@ unlink("/tmp/ECGFromServer");*/
             pipe << *(start[i]) << "\n";
             ++start[i];
           }
-        }
-        for (int i = 0; i < 3; i++)
-        {
-          pipe << *(start[i]) << "\n";
         }
       }
       else //brak danych
