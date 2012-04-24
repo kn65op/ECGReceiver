@@ -218,9 +218,7 @@ void ECGReceiver::on_start_stop_clicked()
   if (recording) //koniec nagrywania
   {
     start_stop.set_label("Start");
-    recording_mutex.lock();
     recording = false;
-    recording_mutex.unlock();
     reader->join(); //czekanie na skończenie nagrywania 
     listen_to_server->join();
     device->stopConnection();
@@ -239,9 +237,7 @@ void ECGReceiver::on_start_stop_clicked()
   {
     signal = new ECGSignal<u_int32_t > (3);
     start_stop.set_label("Stop");
-    recording_mutex.lock();
     recording = true;
-    recording_mutex.unlock();
     device->startConnection();
     signal->startRecording();
     reader = new std::thread(&ECGReceiver::getData, this);
@@ -251,7 +247,7 @@ void ECGReceiver::on_start_stop_clicked()
     if (!pid)
     { //dziecko
       std::cout << "FORK\n";
-      std::cout << execlp("python", "python", "websocketServer.py", NULL)  << "\n" ;
+      std::cout << execlp("python", "python", "websocketServer.py", NULL) << "\n";
       std::cout << errno << "\n";
       std::cout << "FORK BAD\n";
       exit(-1);
@@ -266,9 +262,7 @@ void ECGReceiver::getData()
 {
   std::vector<u_int32_t> vals(3);
   device->sendChar('s'); //start
-  recording_mutex.lock();
   bool rec = recording;
-  recording_mutex.unlock();
   while (rec)
   {
     for (auto &v : vals)
@@ -280,9 +274,7 @@ void ECGReceiver::getData()
     std::vector<u_int32_t>::iterator ed = vals.end();
     signal->store(beg, ed);
     std::cout << "getdata\n";
-    recording_mutex.lock();
     rec = recording;
-    recording_mutex.unlock();
     sleep(1);
   }
   device->sendChar('s'); //stop
@@ -295,6 +287,7 @@ void ECGReceiver::createServer()
 
 void ECGReceiver::listenToServer()
 {
+  
   std::cout << "listen\n";
   bool rec = recording;
   ECGSignal<u_int32_t>::vector_it_data_t start(3), end(3);
@@ -325,22 +318,11 @@ void ECGReceiver::listenToServer()
         {
           pipe << *a;
         }*/
-    /*
-    if (signal->readData(hand, data))
-    {
-      for (int i = 0; i < data.size() ; i++)
-      {
-        ECGSignal<int>::it_data_t it, end;
-        end = data[i].end();
-        for (it = data[i].begin(); it != end; ++it)
-        {
-          pipe << *it << "\n";
-          std::cout << *it << "\n";
-        }
-      }
-     * **/
-    //}
-    rec = recording;
-  }
-  unlink("/tmp/ECGFromServer");
+  
+  rec = recording;
+}
+unlink("/tmp/ECGFromServer");
+   
+/*  bool rec = recording;
+  while (rec && )*/
 }

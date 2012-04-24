@@ -33,7 +33,6 @@ private:
 
   //wątki
   std::thread *reader, *writer, *listen_to_server;
-  std::mutex recording_mutex;
 
   //obsługa sygnałów
   void on_select_device_clicked();
