@@ -247,13 +247,13 @@ void ECGReceiver::on_start_stop_clicked()
     //TODO uruchomienie serwera oferującgo websockety
     mkfifo("/tmp/ECGFromServer", 0600);
     mkfifo("/tmp/ECGToServer", 0600);
+    mkfifo("/tmp/ECGToServerClose", 0600);
     int pid = fork();
     if (!pid)
     { //dziecko
       std::cout << execlp("python", "python", "websocketServer.py", NULL) << "\n";
       exit(-1);
     }
-    std::cout << pid << "\n";
     //matka
     listen_to_server = new std::thread(&ECGReceiver::listenToServer, this);
   }
@@ -375,6 +375,9 @@ unlink("/tmp/ECGFromServer");*/
     }
     rec = recording;
   }
+  std::ofstream p("/tmp/ECGToServerClose", std::ios::out);
+  p.close();
+  unlink("/tmp/ECGToServerClose");
   unlink("/tmp/ECGFromServer");
   unlink("/tmp/ECGToServer");
   for (auto p : pipes)

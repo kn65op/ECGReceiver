@@ -37,8 +37,8 @@ class EchoWebSocket(tornado.websocket.WebSocketHandler):
                     
     def on_close(self):  
         print "WebSocket closed"  
-                             
-def main():  
+
+def startTornado():
     tornado.options.parse_command_line()  
     application = tornado.web.Application([  
         (r"/", EchoWebSocket),  
@@ -46,6 +46,16 @@ def main():
     http_server = tornado.httpserver.HTTPServer(application)  
     http_server.listen(options.port)
     tornado.ioloop.IOLoop.instance().start()  
+
+def stopTornado():
+    tornado.ioloop.IOLoop.instance().stop()
+                             
+def main():  
+    import threading
+    threading.Thread(target=startTornado).start()
+    f = open("/tmp/ECGToServerClose", "r")
+    f.close()
+    stopTornado()
                                         
                                       
 if __name__ == "__main__":  
