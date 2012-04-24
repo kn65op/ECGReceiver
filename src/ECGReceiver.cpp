@@ -9,9 +9,17 @@
 
 #include "../include/DeviceSelector.h"
 
+#include <unistd.h>
 #include <fstream>
 #include <vector>
+#include <sys/stat.h>
+
 #include "../include/FakeDevice.h"
+
+//TODO usunąć
+#include <iostream>
+#include <bits/stl_vector.h>
+#include <bits/stl_bvector.h>
 
 ECGReceiver::ECGReceiver()
 {
@@ -204,7 +212,6 @@ void ECGReceiver::saveDeviceToFile()
   }
 }
 
-#include <iostream>
 void ECGReceiver::on_start_stop_clicked()
 {
   if (recording) //koniec nagrywania
@@ -214,8 +221,10 @@ void ECGReceiver::on_start_stop_clicked()
     recording = false;
     recording_mutex.unlock();
     reader->join(); //czekanie na skończenie nagrywania 
+    listen_to_server->join();
     device->stopConnection();
-    ECGSignal<int>::it_vector_data_t begin, end;
+    signal->stopRecording();
+    ECGSignal<u_int32_t>::it_vector_data_t begin, end;
     signal->getAllData(begin, end);
     if (signal)
     {
@@ -227,35 +236,52 @@ void ECGReceiver::on_start_stop_clicked()
   }
   else //początek nagrywania
   {
-    signal = new ECGSignal<int>(3);
+    signal = new ECGSignal<u_int32_t > (3);
     start_stop.set_label("Stop");
     recording_mutex.lock();
     recording = true;
     recording_mutex.unlock();
     device->startConnection();
+    signal->startRecording();
     reader = new std::thread(&ECGReceiver::getData, this);
     //TODO uruchomienie serwera oferującgo websockety
+    mkfifo("/tmp/ECGFromServer", 0600);
+    int pid = fork();
+    if (!pid)
+    { //dziecko
+      std::cout << "FORK\n";
+      execlp("python", "python", "websocketServer.py", "NULL");
+      std::cout << "FORK BAD\n";
+      exit(-1);
+    }
+    std::cout << pid << "\n";
+    //matka
+    listen_to_server = new std::thread(&ECGReceiver::listenToServer, this);
   }
 }
 
-
 void ECGReceiver::getData()
 {
-  std::vector<int> vals(3);
+  std::vector<u_int32_t> vals(3);
   device->sendChar('s'); //start
   recording_mutex.lock();
   bool rec = recording;
   recording_mutex.unlock();
   while (rec)
   {
-    for (int v : vals)
+    for (auto &v : vals)
     {
       v = device->receiveUInt4();
+      std::cout << "data: " << v << "\n";
     }
-    signal->store<std::vector<int>::iterator > (vals.begin(), vals.end());
+    std::vector<u_int32_t>::iterator beg = vals.begin();
+    std::vector<u_int32_t>::iterator ed = vals.end();
+    signal->store(beg, ed);
+    std::cout << "getdata\n";
     recording_mutex.lock();
     rec = recording;
     recording_mutex.unlock();
+    sleep(1);
   }
   device->sendChar('s'); //stop
   std::cout << signal->getSize() << "\n";
@@ -263,4 +289,56 @@ void ECGReceiver::getData()
 
 void ECGReceiver::createServer()
 {
+}
+
+void ECGReceiver::listenToServer()
+{
+  std::cout << "listen\n";
+  bool rec = recording;
+  ECGSignal<u_int32_t>::vector_it_data_t start(3), end(3);
+  std::cout << "przygotowanie\n";
+  int hand;
+  while ((hand = signal->readOpen()) == -1)
+  {
+    std::cout << hand << "Waintin\n";
+    sleep(1);
+  }
+  while (rec)
+  {
+    if (signal->readData(hand, start, end))
+    {
+      std::ofstream pipe("/tmp/ECGFromServer", std::ios::out);
+      while (start[0] != end[0])
+      {
+        for (int i = 0; i < 3; i++) // start to wektor 3 iteratorów
+        {
+          pipe << *(start[i]) << "\n";
+          //std::cout << *(start[i]) << " Listen\n";
+          ++start[i];
+        }
+      }
+      pipe.close();
+    }
+    /*    for (auto &a : start) // start to wektor 3 iteratorów
+        {
+          pipe << *a;
+        }*/
+    /*
+    if (signal->readData(hand, data))
+    {
+      for (int i = 0; i < data.size() ; i++)
+      {
+        ECGSignal<int>::it_data_t it, end;
+        end = data[i].end();
+        for (it = data[i].begin(); it != end; ++it)
+        {
+          pipe << *it << "\n";
+          std::cout << *it << "\n";
+        }
+      }
+     * **/
+    //}
+    rec = recording;
+  }
+  unlink("/tmp/ECGFromServer");
 }

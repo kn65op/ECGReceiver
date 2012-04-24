@@ -7,12 +7,11 @@
 
 #include "../include/FakeDevice.h"
 
-
 FakeDevice::FakeDevice() : Device()
 {
 }
 
-FakeDevice::FakeDevice(const FakeDevice& orig) : Device((Device)(orig))
+FakeDevice::FakeDevice(const FakeDevice& orig) : Device((Device) (orig))
 {
 }
 
@@ -22,8 +21,7 @@ FakeDevice::~FakeDevice()
 
 u_int32_t FakeDevice::receiveUInt4() throw (Device::ConnectionError)
 {
-  sleep(1);
-  inf.open("fake.txt", std::ios::in);
+//  sleep(0);
   if (!inf.eof())
   {
     u_int32_t tmp;
@@ -34,5 +32,6 @@ u_int32_t FakeDevice::receiveUInt4() throw (Device::ConnectionError)
   {
     inf.close();
     inf.open("fake.txt", std::ios::in);
+    return 555;
   }
 }

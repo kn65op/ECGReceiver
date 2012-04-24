@@ -11,6 +11,7 @@
 #include <gtkmm-3.0/gtkmm.h>
 #include <thread>
 #include <mutex>
+#include <atomic>
 
 #include <Device.h>
 #include "ECGSignal.h"
@@ -23,15 +24,15 @@ public:
   virtual ~ECGReceiver();
 private:
   //czy jest nagrywane
-  bool recording;
-  ECGSignal<int> *signal;
+  std::atomic<bool> recording;
+  ECGSignal<u_int32_t> *signal;
   int signal_handler;
 
   //serwer
   struct libwebsocket_context * context;
 
   //wątki
-  std::thread *reader, *writer;
+  std::thread *reader, *writer, *listen_to_server;
   std::mutex recording_mutex;
 
   //obsługa sygnałów
@@ -70,7 +71,7 @@ private:
   //funkcja zapisująca dane do bazy na końcu pobierania
 
   //funkcja odbierająca żądania na websocket 
-
+  void listenToServer();
   //funkcja obsługująca web socket
   /**
    * Funkcja tworząca serwer do obsługi websocket.

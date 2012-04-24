@@ -27,6 +27,7 @@ public:
   void startConnection()
   {
 
+    inf.open("fake.txt", std::ios::in);
   }
 
   void stopConnection()

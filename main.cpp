@@ -8,6 +8,8 @@
 #include <cstdlib>
 #include <gtkmm-3.0/gtkmm.h>
 
+#include <X11/Xlib.h>
+
 #include "include/ECGReceiver.h"
 
 using namespace std;
@@ -17,6 +19,8 @@ using namespace std;
  */
 int main(int argc, char** argv)
 {
+  XInitThreads();
+  
   Gtk::Main gtk(argc, argv);
   
   ECGReceiver ecgr;
