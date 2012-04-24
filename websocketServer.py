@@ -1,12 +1,5 @@
 def main():  
-    while True:
-        f = open("/tmp/ECGFromServer", "r")
-        while True:
-           testline = f.readline()
-           if len(testline) ==0:
-               break # EOF
-           print testline
-        f.close()
+   print "W"                                     
                                       
 if __name__ == "__main__":  
     main()  

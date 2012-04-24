@@ -219,6 +219,9 @@ void ECGReceiver::on_start_stop_clicked()
   {
     start_stop.set_label("Start");
     recording = false;
+    std::ofstream listener("/tmp/ECGFromServer", std::ios::out); //wysłanie komunikatu do procesu nasłuchującego serwer o końcu
+    listener << "END\n";
+    listener.close();
     reader->join(); //czekanie na skończenie nagrywania 
     listen_to_server->join();
     device->stopConnection();
@@ -243,13 +246,11 @@ void ECGReceiver::on_start_stop_clicked()
     reader = new std::thread(&ECGReceiver::getData, this);
     //TODO uruchomienie serwera oferującgo websockety
     mkfifo("/tmp/ECGFromServer", 0600);
+    mkfifo("/tmp/ECGToServer", 0600);
     int pid = fork();
     if (!pid)
     { //dziecko
-      std::cout << "FORK\n";
       std::cout << execlp("python", "python", "websocketServer.py", NULL) << "\n";
-      std::cout << errno << "\n";
-      std::cout << "FORK BAD\n";
       exit(-1);
     }
     std::cout << pid << "\n";
@@ -287,42 +288,101 @@ void ECGReceiver::createServer()
 
 void ECGReceiver::listenToServer()
 {
-  
-  std::cout << "listen\n";
-  bool rec = recording;
-  ECGSignal<u_int32_t>::vector_it_data_t start(3), end(3);
-  std::cout << "przygotowanie\n";
-  int hand;
-  while ((hand = signal->readOpen()) == -1)
-  {
-    std::cout << hand << "Waintin\n";
-    sleep(1);
-  }
-  while (rec)
-  {
-    if (signal->readData(hand, start, end))
-    {
-      std::ofstream pipe("/tmp/ECGFromServer", std::ios::out);
-      while (start[0] != end[0])
-      {
-        for (int i = 0; i < 3; i++) // start to wektor 3 iteratorów
-        {
-          pipe << *(start[i]) << "\n";
-          //std::cout << *(start[i]) << " Listen\n";
-          ++start[i];
-        }
-      }
-      pipe.close();
-    }
-    /*    for (auto &a : start) // start to wektor 3 iteratorów
-        {
-          pipe << *a;
-        }*/
+  /* 
+   std::cout << "listen\n";
+   bool rec = recording;
+   ECGSignal<u_int32_t>::vector_it_data_t start(3), end(3);
+   std::cout << "przygotowanie\n";
+   int hand;
+   while ((hand = signal->readOpen()) == -1)
+   {
+     std::cout << hand << "Waintin\n";
+     sleep(1);
+   }
+   while (rec)
+   {
+     if (signal->readData(hand, start, end))
+     {
+       std::ofstream pipe("/tmp/ECGFromServer", std::ios::out);
+       while (start[0] != end[0])
+       {
+         for (int i = 0; i < 3; i++) // start to wektor 3 iteratorów
+         {
+           pipe << *(start[i]) << "\n";
+           //std::cout << *(start[i]) << " Listen\n";
+           ++start[i];
+         }
+       }
+       pipe.close();
+     }
+     /*    for (auto &a : start) // start to wektor 3 iteratorów
+         {
+           pipe << *a;
+         }//*//*
   
   rec = recording;
 }
-unlink("/tmp/ECGFromServer");
-   
-/*  bool rec = recording;
-  while (rec && )*/
+unlink("/tmp/ECGFromServer");*/
+
+  std::list<std::string> pipes;
+  bool rec = recording;
+  while (rec) //główna pętla
+  {
+    std::ifstream pipe("/tmp/ECGFromServer", std::ios::in);
+    std::string tmp;
+    pipe >> tmp;
+    pipe.close();
+    if (tmp == "END") //oznacza koniec
+    {
+      rec = recording;
+      continue;
+    }
+    if (tmp.find('s') == 0) //tworzenie nowego
+    {
+      //otwarcie pipe, wysłanie id, zamknięcie, utworzenie nowego pipe
+      std::ofstream send_handle("/tmp/ECGToServer", std::ios::out);
+      int id = signal->readOpen();
+      send_handle << id;
+      send_handle.close();
+      std::string new_pipe = "/tmp/ECGToServer";
+      new_pipe += id;
+      mkfifo(new_pipe.c_str(), 0600);
+      pipes.push_back(new_pipe);
+    }
+    else //żądanie nowe informacje
+    {
+      int id = atoi(tmp.c_str());
+      std::string pipe_name = "/tmp/ECGToServer";
+      pipe_name += id;
+      std::ofstream pipe(pipe_name, std::ios::out);
+      ECGSignal<u_int32_t>::vector_it_data_t start, end;
+      if (signal->readData(id, start, end)) // nowe dane
+      {
+        while (start[0] != end[0])
+        {
+          for (int i = 0; i < 3; i++)
+          {
+            pipe << *(start[i]) << "\n";
+            ++start[i];
+          }
+        }
+        for (int i = 0; i < 3; i++)
+        {
+          pipe << *(start[i]) << "\n";
+        }
+      }
+      else //brak danych
+      {
+        pipe << "nothing";
+      }
+      pipe.close();
+    }
+    rec = recording;
+  }
+  unlink("/tmp/ECGFromServer");
+  unlink("/tmp/ECGToServer");
+  for (auto p : pipes)
+  {
+    unlink(p.c_str());
+  }
 }
