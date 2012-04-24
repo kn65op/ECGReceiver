@@ -9,7 +9,6 @@
 
 #include "../include/DeviceSelector.h"
 
-#include <stdlib.h>
 #include <fstream>
 #include <vector>
 #include <sys/stat.h>
