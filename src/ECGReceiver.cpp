@@ -9,7 +9,7 @@
 
 #include "../include/DeviceSelector.h"
 
-#include <unistd.h>
+#include <stdlib.h>
 #include <fstream>
 #include <vector>
 #include <sys/stat.h>
@@ -20,6 +20,7 @@
 #include <iostream>
 #include <bits/stl_vector.h>
 #include <bits/stl_bvector.h>
+#include <errno.h>
 
 ECGReceiver::ECGReceiver()
 {
@@ -250,7 +251,8 @@ void ECGReceiver::on_start_stop_clicked()
     if (!pid)
     { //dziecko
       std::cout << "FORK\n";
-      execlp("python", "python", "websocketServer.py", "NULL");
+      std::cout << execlp("python", "python", "websocketServer.py", NULL)  << "\n" ;
+      std::cout << errno << "\n";
       std::cout << "FORK BAD\n";
       exit(-1);
     }
