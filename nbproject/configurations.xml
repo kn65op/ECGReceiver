@@ -50,15 +50,15 @@
       <compileType>
         <ccTool>
           <incDir>
-            <pElem>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp</pElem>
+            <pElem>bluez-cpp</pElem>
           </incDir>
           <commandLine>-std=c++0x</commandLine>
         </ccTool>
         <linkerTool>
           <linkerLibItems>
             <linkerOptionItem>`pkg-config --libs gtkmm-3.0`</linkerOptionItem>
-            <linkerLibFileItem>/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp/dist/Debug/GNU-Linux-x86/libbluez-cpp.so</linkerLibFileItem>
             <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
+            <linkerLibFileItem>bluez-cpp/dist/Debug/GNU-Linux-x86/libbluez-cpp.so</linkerLibFileItem>
           </linkerLibItems>
         </linkerTool>
         <requiredProjects>

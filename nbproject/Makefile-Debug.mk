@@ -58,13 +58,13 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=`pkg-config --libs gtkmm-3.0` /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp/dist/Debug/GNU-Linux-x86/libbluez-cpp.so -lpthread   
+LDLIBSOPTIONS=`pkg-config --libs gtkmm-3.0` -lpthread  bluez-cpp/dist/Debug/GNU-Linux-x86/libbluez-cpp.so  
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
 	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ecgreceiver
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ecgreceiver: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp/dist/Debug/GNU-Linux-x86/libbluez-cpp.so
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ecgreceiver: bluez-cpp/dist/Debug/GNU-Linux-x86/libbluez-cpp.so
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ecgreceiver: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
@@ -73,42 +73,42 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ecgreceiver: ${OBJECTFILES}
 ${OBJECTDIR}/_ext/1309969090/FakeDevice.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/FakeDevice.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
 	${RM} $@.d
-	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/FakeDevice.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/FakeDevice.cpp
+	$(COMPILE.cc) -g -Ibluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/FakeDevice.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/FakeDevice.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -Ibluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
 ${OBJECTDIR}/_ext/1309969090/DeviceSelector.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceSelector.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
 	${RM} $@.d
-	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/DeviceSelector.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceSelector.cpp
+	$(COMPILE.cc) -g -Ibluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/DeviceSelector.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceSelector.cpp
 
 ${OBJECTDIR}/_ext/1309969090/DeviceTreeNode.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceTreeNode.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
 	${RM} $@.d
-	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/DeviceTreeNode.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceTreeNode.cpp
+	$(COMPILE.cc) -g -Ibluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/DeviceTreeNode.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceTreeNode.cpp
 
 ${OBJECTDIR}/_ext/1309969090/ECGReceiver.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGReceiver.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
 	${RM} $@.d
-	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/ECGReceiver.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGReceiver.cpp
+	$(COMPILE.cc) -g -Ibluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/ECGReceiver.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGReceiver.cpp
 
 ${OBJECTDIR}/_ext/1309969090/WaitingDialog.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/WaitingDialog.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
 	${RM} $@.d
-	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/WaitingDialog.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/WaitingDialog.cpp
+	$(COMPILE.cc) -g -Ibluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/WaitingDialog.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/WaitingDialog.cpp
 
 ${OBJECTDIR}/_ext/1309969090/NeedWaitingDialog.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/NeedWaitingDialog.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
 	${RM} $@.d
-	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/NeedWaitingDialog.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/NeedWaitingDialog.cpp
+	$(COMPILE.cc) -g -Ibluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/NeedWaitingDialog.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/NeedWaitingDialog.cpp
 
 ${OBJECTDIR}/_ext/1309969090/ECGSignal.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGSignal.cpp 
 	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
 	${RM} $@.d
-	$(COMPILE.cc) -g -I/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/ECGSignal.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGSignal.cpp
+	$(COMPILE.cc) -g -Ibluez-cpp `pkg-config --cflags gtkmm-3.0`    -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/ECGSignal.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGSignal.cpp
 
 # Subprojects
 .build-subprojects:
