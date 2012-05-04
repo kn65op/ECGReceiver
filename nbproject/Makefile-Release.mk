@@ -34,14 +34,14 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/_ext/1309969090/FakeDevice.o \
+	${OBJECTDIR}/src/WaitingDialog.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/_ext/1309969090/DeviceSelector.o \
-	${OBJECTDIR}/_ext/1309969090/DeviceTreeNode.o \
-	${OBJECTDIR}/_ext/1309969090/ECGReceiver.o \
-	${OBJECTDIR}/_ext/1309969090/WaitingDialog.o \
-	${OBJECTDIR}/_ext/1309969090/NeedWaitingDialog.o \
-	${OBJECTDIR}/_ext/1309969090/ECGSignal.o
+	${OBJECTDIR}/src/DeviceSelector.o \
+	${OBJECTDIR}/src/ECGReceiver.o \
+	${OBJECTDIR}/src/ECGSignal.o \
+	${OBJECTDIR}/src/DeviceTreeNode.o \
+	${OBJECTDIR}/src/NeedWaitingDialog.o \
+	${OBJECTDIR}/src/FakeDevice.o
 
 
 # C Compiler Flags
@@ -68,45 +68,45 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ecgreceiver: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ecgreceiver ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
-${OBJECTDIR}/_ext/1309969090/FakeDevice.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/FakeDevice.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
+${OBJECTDIR}/src/WaitingDialog.o: src/WaitingDialog.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/FakeDevice.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/FakeDevice.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/WaitingDialog.o src/WaitingDialog.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
-${OBJECTDIR}/_ext/1309969090/DeviceSelector.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceSelector.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
+${OBJECTDIR}/src/DeviceSelector.o: src/DeviceSelector.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/DeviceSelector.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceSelector.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/DeviceSelector.o src/DeviceSelector.cpp
 
-${OBJECTDIR}/_ext/1309969090/DeviceTreeNode.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceTreeNode.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
+${OBJECTDIR}/src/ECGReceiver.o: src/ECGReceiver.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/DeviceTreeNode.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/DeviceTreeNode.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/ECGReceiver.o src/ECGReceiver.cpp
 
-${OBJECTDIR}/_ext/1309969090/ECGReceiver.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGReceiver.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
+${OBJECTDIR}/src/ECGSignal.o: src/ECGSignal.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/ECGReceiver.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGReceiver.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/ECGSignal.o src/ECGSignal.cpp
 
-${OBJECTDIR}/_ext/1309969090/WaitingDialog.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/WaitingDialog.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
+${OBJECTDIR}/src/DeviceTreeNode.o: src/DeviceTreeNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/WaitingDialog.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/WaitingDialog.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/DeviceTreeNode.o src/DeviceTreeNode.cpp
 
-${OBJECTDIR}/_ext/1309969090/NeedWaitingDialog.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/NeedWaitingDialog.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
+${OBJECTDIR}/src/NeedWaitingDialog.o: src/NeedWaitingDialog.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/NeedWaitingDialog.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/NeedWaitingDialog.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/NeedWaitingDialog.o src/NeedWaitingDialog.cpp
 
-${OBJECTDIR}/_ext/1309969090/ECGSignal.o: /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGSignal.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/1309969090
+${OBJECTDIR}/src/FakeDevice.o: src/FakeDevice.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/1309969090/ECGSignal.o /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/src/ECGSignal.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/FakeDevice.o src/FakeDevice.cpp
 
 # Subprojects
 .build-subprojects:
