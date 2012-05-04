@@ -66,7 +66,7 @@
                         CT="2"
                         CN="Debug"
                         AC="true"
-                        BL="false"
+                        BL="true"
                         WD="/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp"
                         BC="${MAKE}  -f Makefile CONF=Debug"
                         CC="${MAKE}  -f Makefile CONF=Debug clean"
