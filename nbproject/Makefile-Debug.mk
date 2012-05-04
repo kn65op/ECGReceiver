@@ -112,7 +112,7 @@ ${OBJECTDIR}/_ext/1309969090/ECGSignal.o: /home/tomko/moje_dziela/Telemedycyna/E
 
 # Subprojects
 .build-subprojects:
-	cd /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp && ${MAKE}  -f Makefile CONF=Debug
+	cd bluez-cpp && ${MAKE}  -f Makefile CONF=Debug
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
@@ -121,7 +121,7 @@ ${OBJECTDIR}/_ext/1309969090/ECGSignal.o: /home/tomko/moje_dziela/Telemedycyna/E
 
 # Subprojects
 .clean-subprojects:
-	cd /home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp && ${MAKE}  -f Makefile CONF=Debug clean
+	cd bluez-cpp && ${MAKE}  -f Makefile CONF=Debug clean
 
 # Enable dependency checking
 .dep.inc: .depcheck-impl

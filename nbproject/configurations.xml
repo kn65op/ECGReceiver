@@ -62,12 +62,12 @@
           </linkerLibItems>
         </linkerTool>
         <requiredProjects>
-          <makeArtifact PL="/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp"
+          <makeArtifact PL="bluez-cpp"
                         CT="2"
                         CN="Debug"
                         AC="true"
                         BL="true"
-                        WD="/home/tomko/moje_dziela/Telemedycyna/ECGReceiver/bluez-cpp"
+                        WD="bluez-cpp"
                         BC="${MAKE}  -f Makefile CONF=Debug"
                         CC="${MAKE}  -f Makefile CONF=Debug clean"
                         OP="${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libbluez-cpp.so">
